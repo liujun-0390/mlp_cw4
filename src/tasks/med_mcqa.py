@@ -191,8 +191,6 @@ class CustomTask(BaseTask):
             all_rouge.append(rouge)
             all_meteor.append(meteor)
 
-        print(all_acc, all_bleu, all_rouge, all_meteor)
-
         return scores, all_acc, all_bleu, all_rouge, all_meteor
     
     def cal_metric_test(self, preds, labels, questions=None):

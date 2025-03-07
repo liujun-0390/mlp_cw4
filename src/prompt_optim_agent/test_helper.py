@@ -22,7 +22,7 @@ def test(
     eval_size=None, 
     test_size=None, 
     
-    batch_size=1, 
+    batch_size=16, 
     log_dir='logs/', 
     log_examples=True,
     data_dir=None, 
@@ -65,7 +65,7 @@ def test(
         post_instruction=post_instruction, 
         data_dir=data_dir)
     
-    test_dataloader = task.get_dataloader('test', batch_size=1)
+    test_dataloader = task.get_dataloader('test', batch_size=batch_size)
     
     base_args, _ = parse_model_args(kwargs=kwargs)
     base_model = get_language_model(base_model_type)(**base_args)
@@ -100,7 +100,7 @@ def test(
         else:
             pbar.set_postfix_str(f"Test Metrics: {metric}")
             
-        for i in range(batch_size):
+        for i in range(len(batch['question'])):
             all_chats.append({
                 'question': batch['question'][i],
                 'prompt': batch_prompts[i],
