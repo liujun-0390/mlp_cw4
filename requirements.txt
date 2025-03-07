@@ -1,0 +1,16 @@
+tqdm
+fire
+numpy
+scipy
+datasets
+openai
+pytz
+matplotlib
+torch
+transformers==4.39.3
+google
+google-api-python-client
+google-generativeai
+ctranslate2
+nltk
+rouge_score
