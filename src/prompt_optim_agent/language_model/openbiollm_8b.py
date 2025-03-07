@@ -1,6 +1,5 @@
 import transformers
 import torch
-import accelerate
 from datasets import Dataset
 
 class OpenBioLLM():

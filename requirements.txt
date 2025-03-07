@@ -7,7 +7,7 @@ openai
 pytz
 matplotlib
 torch
-transformers==4.39.3
+transformers
 google
 google-api-python-client
 google-generativeai
