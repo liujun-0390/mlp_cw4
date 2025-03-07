@@ -100,12 +100,12 @@ def test(
         else:
             pbar.set_postfix_str(f"Test Metrics: {metric}")
             
-        for i in range(len(batch['answer'])):
+        for i in range(batch_size):
             all_chats.append({
                 'question': batch['question'][i],
                 'prompt': batch_prompts[i],
                 'response': responses[i],
-                'gt_answer':batch['answer'][i],
+#                'gt_answer':batch['answer'][i],
                 'label':labels[i],
                 'pred':preds[i],
 

@@ -129,11 +129,16 @@ class CustomTask(BaseTask):
             else:
                 acc = 0
 
-            bleu = sentence_bleu([l[1].split(' ')], p[1].split(' '))
-            rouge = self.rouge_scorer.score(l[1], p[1])['rougeL'].fmeasure
-            meteor = meteor_score([l[1].split(' ')], p[1].split(' '))
+            if p[1].strip() == '':
+                bleu = 0
+                rouge = 0
+                meteor = 0
+            else:
+                bleu = sentence_bleu([l[1].split(' ')], p[1].split(' '))
+                rouge = self.rouge_scorer.score(l[1], p[1])['rougeL'].fmeasure
+                meteor = meteor_score([l[1].split(' ')], p[1].split(' '))
 
-            scores.append(acc + bleu + rouge + meteor)
+            scores.append((acc + bleu + rouge + meteor)/4)
 
         return scores
     
@@ -163,25 +168,30 @@ class CustomTask(BaseTask):
         Function called at: prompt_optim_agent/world_model/gradient_descent.py line 54
         
         '''
-        scores = []
+        scores, all_acc, all_bleu, all_rouge, all_meteor = [], [], [], [], []
         for p, l in zip(preds, labels):
-            all_acc, all_bleu, all_rouge, all_meteor = [], [], [], []
-
             if p[0] == l[0]:
                 acc = 1
             else:
                 acc = 0
 
-            bleu = sentence_bleu([l[1].split(' ')], p[1].split(' '))
-            rouge = self.rouge_scorer.score(l[1], p[1])['rougeL'].fmeasure
-            meteor = meteor_score([l[1].split(' ')], p[1].split(' '))
+            if p[1].strip() == '':
+                bleu = 0
+                rouge = 0
+                meteor = 0
+            else:
+                bleu = sentence_bleu([l[1].split(' ')], p[1].split(' '))
+                rouge = self.rouge_scorer.score(l[1], p[1])['rougeL'].fmeasure
+                meteor = meteor_score([l[1].split(' ')], p[1].split(' '))
 
-            scores.append(acc + bleu + rouge + meteor)
+            scores.append((acc + bleu + rouge + meteor)/4)
 
             all_acc.append(acc)
             all_bleu.append(bleu)
             all_rouge.append(rouge)
             all_meteor.append(meteor)
+
+        print(all_acc, all_bleu, all_rouge, all_meteor)
 
         return scores, all_acc, all_bleu, all_rouge, all_meteor
     
