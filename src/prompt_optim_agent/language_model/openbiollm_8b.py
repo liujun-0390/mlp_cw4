@@ -14,21 +14,9 @@ class OpenBioLLM():
         self.temperature = temperature
         self.device = device
 
-        tokenizer = transformers.AutoTokenizer.from_pretrained(model_name)
-        model = transformers.AutoModelForCausalLM.from_pretrained(model_name)
-#        if torch.cuda.device_count() > 1:
-#            print(f"Using {torch.cuda.device_count()} GPUs!")
-#            model = torch.nn.DataParallel(model)
-#        accelerator = accelerate.Accelerator(mixed_precision='fp16')
-#        torch.cuda.empty_cache()
-#        print(f"Available GPU memory: {torch.cuda.memory_allocated()} bytes")
-#        print(f"Max GPU memory: {torch.cuda.memory_reserved()} bytes")
-#        model = accelerator.prepare(model)
-
         self.pipeline = transformers.pipeline(
             "text-generation",
             model=model_name,
-#            tokenizer=tokenizer,
             model_kwargs={"torch_dtype": torch.bfloat16},
             device=device
         )
