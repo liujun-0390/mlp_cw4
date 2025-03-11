@@ -1,0 +1,37 @@
+Loading rhel8/default-amp
+  Loading requirement: rhel8/slurm singularity/current rhel8/global cuda/11.4
+    libpciaccess/0.16/gcc-9.4.0-6fonbj6 libiconv/1.16/gcc-9.4.0-ahebbov
+    libxml2/2.9.12/gcc-9.4.0-gnknt5e ncurses/6.2/gcc-9.4.0-aiirok7
+    hwloc/2.5.0/gcc-9.4.0-7sqomga libevent/2.1.12/gcc-9.4.0-hgny7cm
+    numactl/2.0.14/gcc-9.4.0-52dwc6n cuda/11.4.0/gcc-9.4.0-3hnxhjt
+    gdrcopy/2.2/gcc-9.4.0-e4igtfp knem/1.1.4/gcc-9.4.0-bpbxgva
+    libnl/3.3.0/gcc-9.4.0-whwhrwb rdma-core/34.0/gcc-9.4.0-5eo5n2u
+    ucx/1.11.1/gcc-9.4.0-lktqyl4 openmpi/4.1.1/gcc-9.4.0-epagguv
+Traceback (most recent call last):
+  File "/rds-d5/user/co-wang1/hpc-work/mlp_cw4/src/main.py", line 79, in <module>
+    main(args)
+  File "/rds-d5/user/co-wang1/hpc-work/mlp_cw4/src/main.py", line 71, in main
+    agent = BaseAgent(**args)
+  File "/rds-d5/user/co-wang1/hpc-work/mlp_cw4/src/prompt_optim_agent/agent.py", line 81, in __init__
+    self.base_model = get_language_model(
+  File "/rds-d5/user/co-wang1/hpc-work/mlp_cw4/src/prompt_optim_agent/language_model/openbiollm_8b.py", line 17, in __init__
+    self.pipeline = transformers.pipeline(
+  File "/home/co-wang1/.conda/envs/prompt_agent/lib/python3.10/site-packages/transformers/pipelines/__init__.py", line 940, in pipeline
+    framework, model = infer_framework_load_model(
+  File "/home/co-wang1/.conda/envs/prompt_agent/lib/python3.10/site-packages/transformers/pipelines/base.py", line 290, in infer_framework_load_model
+    model = model_class.from_pretrained(model, **kwargs)
+  File "/home/co-wang1/.conda/envs/prompt_agent/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py", line 564, in from_pretrained
+    return model_class.from_pretrained(
+  File "/home/co-wang1/.conda/envs/prompt_agent/lib/python3.10/site-packages/transformers/modeling_utils.py", line 262, in _wrapper
+    return func(*args, **kwargs)
+  File "/home/co-wang1/.conda/envs/prompt_agent/lib/python3.10/site-packages/transformers/modeling_utils.py", line 4042, in from_pretrained
+    with safe_open(resolved_archive_file, framework="pt") as f:
+safetensors_rust.SafetensorError: Error while deserializing header: HeaderTooLarge
+Traceback (most recent call last):
+  File "/rds-d5/user/co-wang1/hpc-work/mlp_cw4/src/test.py", line 48, in <module>
+    main(args)
+  File "/rds-d5/user/co-wang1/hpc-work/mlp_cw4/src/test.py", line 44, in main
+    test(**args)
+  File "/rds-d5/user/co-wang1/hpc-work/mlp_cw4/src/prompt_optim_agent/test_helper.py", line 43, in test
+    raise ValueError(f"eval_prompt not provided")
+ValueError: eval_prompt not provided

@@ -1,0 +1,37 @@
+Loading rhel8/default-amp
+  Loading requirement: rhel8/slurm singularity/current rhel8/global cuda/11.4
+    libpciaccess/0.16/gcc-9.4.0-6fonbj6 libiconv/1.16/gcc-9.4.0-ahebbov
+    libxml2/2.9.12/gcc-9.4.0-gnknt5e ncurses/6.2/gcc-9.4.0-aiirok7
+    hwloc/2.5.0/gcc-9.4.0-7sqomga libevent/2.1.12/gcc-9.4.0-hgny7cm
+    numactl/2.0.14/gcc-9.4.0-52dwc6n cuda/11.4.0/gcc-9.4.0-3hnxhjt
+    gdrcopy/2.2/gcc-9.4.0-e4igtfp knem/1.1.4/gcc-9.4.0-bpbxgva
+    libnl/3.3.0/gcc-9.4.0-whwhrwb rdma-core/34.0/gcc-9.4.0-5eo5n2u
+    ucx/1.11.1/gcc-9.4.0-lktqyl4 openmpi/4.1.1/gcc-9.4.0-epagguv
+Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 12989 examples [00:00, 116769.65 examples/s]Generating train split: 38973 examples [00:00, 163992.62 examples/s]Generating train split: 64919 examples [00:00, 188347.38 examples/s]Generating train split: 91080 examples [00:00, 201527.47 examples/s]Generating train split: 117261 examples [00:00, 210337.20 examples/s]Generating train split: 143253 examples [00:00, 222528.32 examples/s]Generating train split: 169296 examples [00:00, 231550.86 examples/s]Generating train split: 182822 examples [00:02, 91088.09 examples/s] 
+Generating test split: 0 examples [00:00, ? examples/s]Generating test split: 4183 examples [00:00, 69341.18 examples/s]
+Traceback (most recent call last):
+  File "/rds-d5/user/co-wang1/hpc-work/mlp_cw4/src/main.py", line 79, in <module>
+    main(args)
+  File "/rds-d5/user/co-wang1/hpc-work/mlp_cw4/src/main.py", line 71, in main
+    agent = BaseAgent(**args)
+  File "/rds-d5/user/co-wang1/hpc-work/mlp_cw4/src/prompt_optim_agent/agent.py", line 81, in __init__
+    self.base_model = get_language_model(
+  File "/rds-d5/user/co-wang1/hpc-work/mlp_cw4/src/prompt_optim_agent/language_model/openbiollm_8b.py", line 17, in __init__
+    tokenizer = transformers.AutoTokenizer.from_pretrained(model_name)
+  File "/home/co-wang1/.conda/envs/prompt_agent/lib/python3.10/site-packages/transformers/models/auto/tokenization_auto.py", line 944, in from_pretrained
+    return tokenizer_class.from_pretrained(pretrained_model_name_or_path, *inputs, **kwargs)
+  File "/home/co-wang1/.conda/envs/prompt_agent/lib/python3.10/site-packages/transformers/tokenization_utils_base.py", line 2052, in from_pretrained
+    return cls._from_pretrained(
+  File "/home/co-wang1/.conda/envs/prompt_agent/lib/python3.10/site-packages/transformers/tokenization_utils_base.py", line 2292, in _from_pretrained
+    tokenizer = cls(*init_inputs, **init_kwargs)
+  File "/home/co-wang1/.conda/envs/prompt_agent/lib/python3.10/site-packages/transformers/tokenization_utils_fast.py", line 117, in __init__
+    fast_tokenizer = TokenizerFast.from_file(fast_tokenizer_file)
+Exception: expected value at line 1 column 1
+Traceback (most recent call last):
+  File "/rds-d5/user/co-wang1/hpc-work/mlp_cw4/src/test.py", line 48, in <module>
+    main(args)
+  File "/rds-d5/user/co-wang1/hpc-work/mlp_cw4/src/test.py", line 44, in main
+    test(**args)
+  File "/rds-d5/user/co-wang1/hpc-work/mlp_cw4/src/prompt_optim_agent/test_helper.py", line 43, in test
+    raise ValueError(f"eval_prompt not provided")
+ValueError: eval_prompt not provided
