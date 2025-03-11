@@ -34,7 +34,7 @@ def load_dataset(path):
 
 def main():
     random.seed(42)
-    model_name = "/disk/scratch/s2680414/Bio-Medical-Llama-3-2-1B-CoT-012025"
+    model_name = "Bio-Medical-Llama-3-2-1B-CoT-012025"
 
     eval_dataset = load_dataset("MedMCQA")
     eval_dataset = random.shuffle(eval_dataset["train"])[:150]
@@ -57,7 +57,7 @@ def main():
 
     grpo_trainer = GRPO(
         model_name=model_name, 
-        output_dir="/disk/scratch/s2680414/grpo_outputs",
+        output_dir="grpo_outputs",
         device='cuda:1',
         reward_func=reward_func,
         eval_model=eval_model,
