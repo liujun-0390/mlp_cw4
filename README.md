@@ -17,3 +17,19 @@
 #### Things to note:
 1. The data directory `MedMCQA` and LLM `Bio-Medical-Llama-3-2-1B-CoT-012025` should be at the same level as `src`
 2. Outputs for the training script are in `logs`, whereas outputs for the test script are in a directory named `2025xxxx_xxxxxx-med_mcqa-algo_mcts`
+
+### Steps for running proposed framework (GRPO):
+1. Pull latest code from the repo with `git pull`
+2. Switch to `grpo` branch with `git checkout grpo`
+3. Activate the environment with `conda activate prompt_agent`
+4. Install required libraries with `pip install -r requirements.txt`
+5. Run the experiment with `bash run_experiment.sh`
+
+#### Things to note:
+1. These steps assume that the repo has been cloned (Refer **steps 1-2** from baseline steps)
+2. These steps assume that the data has been unzipped (Refer **step 4** from baseline steps)
+3. These steps assume that BioMedical Llama has been cloned (Refer **steps 5-9** from baseline steps)
+4. The data directory `MedMCQA` and LLM `Bio-Medical-Llama-3-2-1B-CoT-012025` should be at the same level as `src_grpo`
+5. The only output for the training script is `data.json`, whereas outputs for the test script are in `logs`
+
+
