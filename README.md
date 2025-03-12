@@ -1,6 +1,6 @@
 # README.md
-## [Steps for Baseline](#steps-for-running-baseline-promptagent)
-## [Steps for GRPO](#steps-for-running-proposed-framework-grpo)
+1. [Steps for Baseline](#steps-for-running-baseline-promptagent)
+2. [Steps for GRPO](#steps-for-running-proposed-framework-grpo)
 
 ### Steps for running baseline (PromptAgent):
 1. Clone this repo with `git clone git@github.com:liujun-0390/mlp_cw4.git`
