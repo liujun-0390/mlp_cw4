@@ -5,6 +5,7 @@ import torch
 import random
 from grpo import GRPO
 from reward_function import reward_func
+import json
 
 def load_task_dataset(path):
     dataset = load_dataset(path)
@@ -72,8 +73,23 @@ def main():
     print("GRPO trainer created!")
 
     print("Starting GRPO training...")
-    grpo_trainer.train(init_prompt)
+    trainer = grpo_trainer.train(init_prompt)
     print("GRPO training completed!")
+
+    print("Generating optimized prompt...")
+    prompt = trainer.processing_class.apply_chat_template(init_prompt, tokenize=False, add_generation_prompt=False)
+    generated_ids = trainer.model.generate(
+        **trainer.processing_class(prompt, return_tensors='pt', padding=True)
+    )
+    generated_text = trainer.processing_class.batch_decode(generated_ids, skip_special_tokens=True)[0]
+    generated_text = generated_text.split('assistant')[-1]
+    print("Optimized prompt generated!")
+
+    print("Writing optimized prompt to data.json")
+    data = {"optimized_prompt": generated_text}
+    with open('data.json', 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+    print("Optimized prompt written to data.json!")
     
 
 if __name__ == '__main__':
