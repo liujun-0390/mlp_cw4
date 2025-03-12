@@ -7,10 +7,13 @@ import numpy as np
 from tqdm import tqdm
 
 def reward_func(questions, prompt, eval_dataloader, eval_model):
-    rouge_scorer = rouge_scorer.RougeScorer(['rougeL'], use_stemmer=True)
+    print("Calculating reward...")
+    prompt = prompt[0].split('assistant')[-1]
+    print(prompt)
+    rouge_screr = rouge_scorer.RougeScorer(['rougeL'], use_stemmer=True)
 
     pbar = tqdm(eval_dataloader, leave=False)
-    all_preds, all_labels = []
+    all_preds, all_labels = [], []
     for batch in pbar:
         responses = _generate_responses(eval_model, batch['question'], prompt)
         preds = [_clean_response(r) for r in responses]
@@ -18,13 +21,14 @@ def reward_func(questions, prompt, eval_dataloader, eval_model):
         all_preds.extend(preds)
         all_labels.extend(labels)
         
-        metric = _cal_metric(all_preds, all_labels)
+        metric = _cal_metric(all_preds, all_labels, rouge_screr)
         if not isinstance(metric, tuple):
             pbar.set_postfix_str(f"Test Metric: {metric:.4f}")
         else:
             pbar.set_postfix_str(f"Test Metrics: {metric}")
 
-    reward = _cal_metric(all_preds, all_labels, rouge_scorer)
+    reward = _cal_metric(all_preds, all_labels, rouge_screr)
+    print("Reward calculation completed! ")
 
     return reward
 
@@ -33,7 +37,8 @@ def _generate_responses(eval_model, questions, prompt):
     answer_format_prompt = "At the end show the answer option in the first sentence 'The correct answer is option)', followed by the explanation."
     user_prompt = "{prompt}\n{q}\n{answer_format_prompt}"
 
-    prompt_chats = [[{"role": "system", "content": "You are an expert trained on healthcare and biomedical domain!"}, {"role": "user", "content": user_prompt.format(prompt, q, answer_format_prompt)}] for q in questions]
+    prompt_chats = [[{"role": "system", "content": "You are an expert trained on healthcare and biomedical domain!"}, {"role": "user", "content": user_prompt.format(prompt=prompt, q=q, answer_format_prompt=answer_format_prompt)}] for q in questions]
+    print(prompt_chats)
     prompt_dataset = Dataset.from_dict({"chat": prompt_chats})
     prompt_dataset = prompt_dataset.map(lambda x: {"formatted_chat": eval_model.tokenizer.apply_chat_template(x["chat"], tokenize=False, add_generation_prompt=False)})
 
@@ -44,11 +49,12 @@ def _generate_responses(eval_model, questions, prompt):
 
     responses = eval_model(
         prompt_dataset["formatted_chat"],
-        max_new_tokens=1024,
+        max_new_tokens=512,
         eos_token_id=terminators,
         do_sample=True,
         temperature=0.6,
-        top_p=0.9
+        top_p=0.9,
+        truncation=True
     )
 
     return responses
@@ -100,7 +106,7 @@ def _clean_labels(labels):
     return format_labels
 
 
-def _cal_correct(preds, labels, rouge_scorer):
+def _cal_correct(preds, labels, rouge_screr):
     '''
     <task specific>
     The function of comparing the predictions and labels.
@@ -123,16 +129,21 @@ def _cal_correct(preds, labels, rouge_scorer):
         else:
             acc = 0
 
-        bleu = sentence_bleu([l[1].split(' ')], p[1].split(' '))
-        rouge = rouge_scorer.score(l[1], p[1])['rougeL'].fmeasure
-        meteor = meteor_score([l[1].split(' ')], p[1].split(' '))
+        if p[1].strip() == '':
+            bleu = 0
+            rouge = 0
+            meteor = 0
+        else:
+            bleu = sentence_bleu([l[1].split(' ')], p[1].split(' '))
+            rouge = rouge_screr.score(l[1], p[1])['rougeL'].fmeasure
+            meteor = meteor_score([l[1].split(' ')], p[1].split(' '))
 
-        scores.append(acc + bleu + rouge + meteor)
+        scores.append((acc + bleu + rouge + meteor)/4)
 
     return scores
 
 
-def _cal_metric(preds, labels, rouge_scorer):
+def _cal_metric(preds, labels, rouge_screr):
     '''
     <task specific>
     Calculate the evaluation metric, e.g. Accuracy, F1 score.
@@ -141,5 +152,5 @@ def _cal_metric(preds, labels, rouge_scorer):
     
     This function is for calculating the reward of MCTS.
     '''
-    scores = _cal_correct(preds=preds, labels=labels, rouge_scorer=rouge_scorer)
+    scores = _cal_correct(preds=preds, labels=labels, rouge_screr=rouge_screr)
     return np.mean(scores)

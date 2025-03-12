@@ -1,4 +1,5 @@
 import torch
+from datasets import Dataset
 from transformers import AutoTokenizer, AutoModelForCausalLM, TrainerCallback
 from trl import GRPOConfig, GRPOTrainer
 from peft import LoraConfig
@@ -29,11 +30,11 @@ class GRPO():
             max_completion_length=160,
             num_train_epochs=3,
             save_steps=100,
-            log_on_each_node=False,
-            use_vllm=True,
-            vllm_gpu_memory_utilization=0.6,
-            vllm_device="cuda:0",
-            report_to="none"
+            log_on_each_node=False
+#            use_vllm=True,
+#            vllm_gpu_memory_utilization=0.6,
+#            vllm_device="cuda:2",
+#            report_to="none"
         )
 
         self.model = AutoModelForCausalLM.from_pretrained(
@@ -57,7 +58,7 @@ class GRPO():
 
         self.eval_dataloader = eval_dataloader
 
-    def train(self, dataset):
+    def train(self, init_prompt):
         class AdjustContextLengthCallback(TrainerCallback):
             """Dynamically increases max_completion_length during training."""
 
@@ -74,13 +75,31 @@ class GRPO():
                 if step in [500, 1000]:
                     print(f"Adjusted max_completion_length to {args.max_completion_length} at step {step}")
 
-        self.trainer = self._init_trainer(dataset)
+        self.trainer = self._init_trainer(init_prompt)
         # Add dynamic context adjustment
         self.trainer.add_callback(AdjustContextLengthCallback())
 
         self.trainer.train()
     
-    def _init_trainer(self, dataset):
+    def _init_trainer(self, init_prompt):
+        print(f"dataset: {init_prompt}")
+
+        init_prompt = self.tokenizer.apply_chat_template(init_prompt, tokenize=False, add_generation_prompt=False)
+        dataset = Dataset.from_dict({
+            "prompt": init_prompt
+        })
+
+#        dataset = dataset.map(lambda x: {"prompt": self.tokenizer.apply_chat_template(x["prompt_text"], tokenize=False, add_generation_prompt=False)})
+#        dataset = dataset.map(lambda x: print(x["prompt_text"]))
+#        test = [[
+#            {"role": "system", "content": "You are an expert trained on healthcare and biomedical domain!"},
+#            {"role": "user", "content": "I am currently writing prompts for a language model to answer multiple-choice medical question answering tasks with explanations. Please help to improve my current prompt: Answer questions from real world medical exams."}
+#        ]]
+#        print(dataset.map(lambda x: {"prompt": self.tokenizer.apply_chat_template(x["prompt_text"], tokenize=False, add_generation_prompt=False)}))
+        dataset = dataset.select_columns(["prompt"])
+
+        print(f"dataset: {dataset}")
+
         trainer = GRPOTrainer(
             model=self.model,
             processing_class=self.tokenizer,

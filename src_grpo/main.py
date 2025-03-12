@@ -45,20 +45,18 @@ def main():
     print("Dataset loaded!")
 
     print("Preparing dataset...")
-    prompt_dataset = Dataset.from_dict({
-        "prompt": [
-            {"role": "system", "content": "You are an expert trained on healthcare and biomedical domain!"},
-            {"role": "user", "content": "I am currently writing prompts for a language model to answer multiple-choice medical question answering tasks with explanations. Please help to improve my current prompt: Answer questions from real world medical exams."}
-        ]
-    })
+    init_prompt = [[
+        {"role": "system", "content": "You are an expert trained on healthcare and biomedical domain!"},
+        {"role": "user", "content": "I am currently writing prompts for a language model to answer multiple-choice medical question answering tasks with explanations. Please help to improve my current prompt: Answer questions from real world medical exams. Please only return the improved prompt in your response."}
+    ]]
     print("Dataset preparation completed!")
 
     print("Loading evaluation model...")
     eval_model = transformers.pipeline(
         "text-generation",
-            model=model_name,
-            model_kwargs={"torch_dtype": torch.bfloat16},
-            device='cuda:0'
+        model=model_name,
+        model_kwargs={"torch_dtype": torch.bfloat16},
+        device='cuda:0'
     )
     print("Evaluation model loaded!")
 
@@ -74,7 +72,7 @@ def main():
     print("GRPO trainer created!")
 
     print("Starting GRPO training...")
-    grpo_trainer.train(prompt_dataset)
+    grpo_trainer.train(init_prompt)
     print("GRPO training completed!")
     
 
