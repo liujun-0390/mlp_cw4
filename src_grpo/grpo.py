@@ -74,7 +74,7 @@ class GRPO():
                 if step in [500, 1000]:
                     print(f"Adjusted max_completion_length to {args.max_completion_length} at step {step}")
 
-        self.trainer = self._init_trainer(self, dataset)
+        self.trainer = self._init_trainer(dataset)
         # Add dynamic context adjustment
         self.trainer.add_callback(AdjustContextLengthCallback())
 

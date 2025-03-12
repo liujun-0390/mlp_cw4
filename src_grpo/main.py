@@ -1,11 +1,12 @@
-from datasets import load_dataset, Dataset, DataLoader
+from datasets import load_dataset, Dataset
+from torch.utils.data import DataLoader
 import transformers
 import torch
 import random
 from grpo import GRPO
 from reward_function import reward_func
 
-def load_dataset(path):
+def load_task_dataset(path):
     dataset = load_dataset(path)
     new_dataset = dict(train=[], test=[])
 
@@ -25,7 +26,7 @@ def load_dataset(path):
                 example['exp'] = ''
             
             # Append to the new dataset
-            new_dataset[split_name].append(dict(question=question_str, answer=(ans_options[example['cop']], example['exp'])))
+            new_dataset[split_name].append(dict(question=question_str, answer=(ans_options[example['cop']-1], example['exp'])))
 
     process_split('train')
     process_split('test')
@@ -36,25 +37,32 @@ def main():
     random.seed(42)
     model_name = "Bio-Medical-Llama-3-2-1B-CoT-012025"
 
-    eval_dataset = load_dataset("MedMCQA")
-    eval_dataset = random.shuffle(eval_dataset["train"])[:150]
+    print("Loading dataset...")
+    eval_dataset = load_task_dataset("MedMCQA")
+    random.shuffle(eval_dataset["train"])
+    eval_dataset = eval_dataset["train"][:5]
     eval_dataloader = DataLoader(eval_dataset, batch_size=16, shuffle=True)
+    print("Dataset loaded!")
 
+    print("Preparing dataset...")
     prompt_dataset = Dataset.from_dict({
         "prompt": [
             {"role": "system", "content": "You are an expert trained on healthcare and biomedical domain!"},
             {"role": "user", "content": "I am currently writing prompts for a language model to answer multiple-choice medical question answering tasks with explanations. Please help to improve my current prompt: Answer questions from real world medical exams."}
-        ],
-        "answer": ""
+        ]
     })
+    print("Dataset preparation completed!")
 
+    print("Loading evaluation model...")
     eval_model = transformers.pipeline(
         "text-generation",
             model=model_name,
             model_kwargs={"torch_dtype": torch.bfloat16},
             device='cuda:0'
     )
+    print("Evaluation model loaded!")
 
+    print("Creating GRPO trainer...")
     grpo_trainer = GRPO(
         model_name=model_name, 
         output_dir="grpo_outputs",
@@ -63,10 +71,11 @@ def main():
         eval_model=eval_model,
         eval_dataloader=eval_dataloader
     )
+    print("GRPO trainer created!")
 
+    print("Starting GRPO training...")
     grpo_trainer.train(prompt_dataset)
-
-
+    print("GRPO training completed!")
     
 
 if __name__ == '__main__':
