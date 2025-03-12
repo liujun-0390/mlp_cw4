@@ -41,7 +41,7 @@ def main():
     print("Loading dataset...")
     eval_dataset = load_task_dataset("MedMCQA")
     random.shuffle(eval_dataset["train"])
-    eval_dataset = eval_dataset["train"][:5]
+    eval_dataset = eval_dataset["train"][:50]
     eval_dataloader = DataLoader(eval_dataset, batch_size=16, shuffle=True)
     print("Dataset loaded!")
 
