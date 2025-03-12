@@ -4,11 +4,11 @@
 2. Go to the cloned directory `mlp_cw4` with `cd mlp_cw4`
 3. Switch to `baseline` branch with `git checkout baseline`
 4. Unzip the data with `unzip MedMCQA.zip`
-**5. Install git lfs with `git lfs install`**
+5. **Install git lfs with `git lfs install`**
 6. Clone BioMedical Llama with `git clone https://liujun-0390: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@huggingface.co/ContactDoctor/Bio-Medical-Llama-3-2-1B-CoT-012025`
-**7. Go to the cloned directory with `cd Bio-Medical-Llama-3-2-1B-CoT-012025`**
-**8. Ensure all the files have been downloaded properly with `git lfs pull`**
-**9. Return to `mlp_cw4` (one level before) with `cd ..`**
+7. **Go to the cloned directory with `cd Bio-Medical-Llama-3-2-1B-CoT-012025`**
+8. **Ensure all the files have been downloaded properly with `git lfs pull`**
+9. **Return to `mlp_cw4` (one level before) with `cd ..`**
 10. Create conda environment with `conda create -n prompt_agent `
 11. Activate the environment with `conda activate prompt_agent`
 12. Install required libraries with `pip install -r requirements.txt`
