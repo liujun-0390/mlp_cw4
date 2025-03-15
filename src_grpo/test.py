@@ -38,6 +38,7 @@ def config():
     parser.add_argument('--bleu_weight', type=float, default=0.25)
     parser.add_argument('--rouge_weight', type=float, default=0.25)
     parser.add_argument('--meteor_weight', type=float, default=0.25)
+    parser.add_argument('--train_log', type=str, default=None, help='Train log directory.')
     
     args = parser.parse_args()
 

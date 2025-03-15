@@ -33,7 +33,7 @@ def test(
     '''
     
     eval_prompt = None
-    with open(f'data.json') as f:
+    with open(f'{kwargs['train_log']}/data.json') as f:
         d = json.load(f)
         eval_prompt = d['optimized_prompt']
 

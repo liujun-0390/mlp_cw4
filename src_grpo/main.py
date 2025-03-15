@@ -102,9 +102,9 @@ def main():
 
     print("Writing optimized prompt to data.json")
     data = {"optimized_prompt": generated_text}
-    with open('data.json', 'w', encoding='utf-8') as f:
+    with open(f'{args[-1]}/data.json', 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
-    print("Optimized prompt written to data.json!")
+    print(f"Optimized prompt written to {args[-1]}/data.json!")
     
 
 if __name__ == '__main__':

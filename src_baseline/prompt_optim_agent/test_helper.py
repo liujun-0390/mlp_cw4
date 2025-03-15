@@ -31,11 +31,11 @@ def test(
     '''
         Evaluate prompt on task testing dataset
     '''
-    
+    train_log = 'baseline_train_log'
     eval_prompt = None
-    for log_dir in os.listdir('logs'):
-        if 'data.json' in os.listdir(f"logs/{log_dir}"):
-            with open(f'logs/{log_dir}/data.json') as f:
+    for log_dir in os.listdir(train_log):
+        if 'data.json' in os.listdir(f"{train_log}/{log_dir}"):
+            with open(f'{train_log}/{log_dir}/data.json') as f:
                 d = json.load(f)
                 eval_prompt = d['best_reward_path_selected_node'][0]['prompt']
 
