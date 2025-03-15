@@ -24,7 +24,7 @@ base_model_setting:
   model_name: Bio-Medical-Llama-3-2-1B-CoT-012025 # api-based model'name or huggingface model name
   temperature: 0.6
   api_key: null # if need api key
-  device: cuda # cuda | cpu | cuda:x, e.g. 0,1,2...
+  device: cuda:0 # cuda | cpu | cuda:x, e.g. 0,1,2...
   gpu_ids: null # [0,1,...] for vllm model
   model_path: null # ct model requires the downloaded model's path
 
@@ -33,7 +33,7 @@ optim_model_setting:
   model_name: Bio-Medical-Llama-3-2-1B-CoT-012025 # api-based model'name or huggingface model name
   temperature: 0.6
   api_key: null  # if need api key
-  device: cuda # cuda | cpu | cuda:x, e.g. 0,1,2...
+  device: cuda:1 # cuda | cpu | cuda:x, e.g. 0,1,2...
   gpu_ids: null # [0,1,...] for vllm model
   model_path: null # ct model requires the downloaded model's path
 
