@@ -17,9 +17,9 @@ class BeamSearchWorldModel(Generic[State, Action]):
         prompt_length_limit:int,
         num_new_prompts = 3,
         train_shuffle = True,
-        train_batch_size: int = 5,
-        test_batch_size: int = 1,
-        eval_batch_size: int = 1,
+        train_batch_size: int = 64,
+        test_batch_size: int = 64,
+        eval_batch_size: int = 64,
         **kwargs
         ) -> None:
         

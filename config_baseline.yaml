@@ -10,8 +10,8 @@ init_prompt: |
 
 task_setting:
   train_size: 2000 
-  eval_size: 50 # data split for reward calculation
-  test_size: 150 # if test_size is not 0, the optimized nodes will be tested at last.
+  eval_size: 150 # data split for reward calculation
+  test_size: 500 # if test_size is not 0, the optimized nodes will be tested at last.
   seed: 42 # if need to fixed shuffled dataset
   data_dir: MedMCQA # if data is downloaded
   # Note: the current supported bigbench tasks are specified by 

@@ -23,9 +23,9 @@ class GRPO():
             lr_scheduler_type='cosine_with_restarts',
             logging_steps=1,
             bf16=True,
-            per_device_train_batch_size=4, #4,
+            per_device_train_batch_size=8, #4,
             gradient_accumulation_steps=1,
-            num_generations=4, #4,
+            num_generations=8, #4,
             max_prompt_length=192,
             max_completion_length=160,
             num_train_epochs=3,
@@ -58,6 +58,7 @@ class GRPO():
         self.eval_dataloader = eval_dataloader
         self.metric_weights = metric_weights
 
+
     def train(self, init_prompt):
         class AdjustContextLengthCallback(TrainerCallback):
             """Dynamically increases max_completion_length during training."""
@@ -80,6 +81,9 @@ class GRPO():
         self.trainer.add_callback(AdjustContextLengthCallback())
 
         self.trainer.train()
+
+        return self.trainer
+    
     
     def _init_trainer(self, init_prompt):
         print(f"dataset: {init_prompt}")

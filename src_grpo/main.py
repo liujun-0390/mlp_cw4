@@ -8,6 +8,21 @@ from reward_function import reward_func
 import json
 import argparse
 
+GENERATE_NEW_PROMPT = """
+I'm writing prompts for a language model designed for a medical question answering task. 
+
+The language model is presented with a question followed by its options.
+
+The language model is expected to provide the correct option along with an explanation for the chosen option. 
+
+My current prompt is:
+Answer questions from real world medical exams.
+
+Please write a new prompt to improve the current prompt.
+
+The new prompt is:
+"""
+
 def config():
     parser = argparse.ArgumentParser(description='Train GRPO')
     parser.add_argument('--acc_weight', type=float, default=0.25)
@@ -55,14 +70,14 @@ def main():
     print("Loading dataset...")
     eval_dataset = load_task_dataset("MedMCQA")
     random.shuffle(eval_dataset["train"])
-    eval_dataset = eval_dataset["train"][:50]
-    eval_dataloader = DataLoader(eval_dataset, batch_size=16, shuffle=True)
+    eval_dataset = eval_dataset["train"][:2000]
+    eval_dataloader = DataLoader(eval_dataset, batch_size=64, shuffle=True)
     print("Dataset loaded!")
 
     print("Preparing dataset...")
     init_prompt = [[
         {"role": "system", "content": "You are an expert trained on healthcare and biomedical domain!"},
-        {"role": "user", "content": "I am currently writing prompts for a language model to answer multiple-choice medical question answering tasks with explanations. Please help to improve my current prompt: Answer questions from real world medical exams. Please only return the improved prompt in your response."}
+        {"role": "user", "content": GENERATE_NEW_PROMPT}
     ]]
     print("Dataset preparation completed!")
 

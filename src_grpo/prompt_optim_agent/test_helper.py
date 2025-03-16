@@ -22,7 +22,7 @@ def test(
     eval_size=None, 
     test_size=None, 
     
-    batch_size=16, 
+    batch_size=64, 
     log_dir='logs/', 
     log_examples=True,
     data_dir=None, 
