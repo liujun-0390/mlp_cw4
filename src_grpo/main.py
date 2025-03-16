@@ -93,9 +93,10 @@ def main(args):
     print("Evaluation model loaded!")
 
     print("Creating GRPO trainer...")
+    metric_weights = [args['acc_weight'], args['bleu_weight'], args['rouge_weight'], args['meteor_weight']]
     grpo_trainer = GRPO(
         model_name=model_name, 
-        output_dir=args[-1],
+        output_dir=args['log_dir'],
         device='cuda:1',
         reward_func=reward_func,
         eval_model=eval_model,
@@ -119,9 +120,9 @@ def main(args):
 
     print("Writing optimized prompt to data.json")
     data = {"optimized_prompt": generated_text}
-    with open(f'{args[-1]}/data.json', 'w', encoding='utf-8') as f:
+    with open(f'{args['log_dir']}/data.json', 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
-    print(f"Optimized prompt written to {args[-1]}/data.json!")
+    print(f"Optimized prompt written to {args['log_dir']}/data.json!")
     
 
 if __name__ == '__main__':
