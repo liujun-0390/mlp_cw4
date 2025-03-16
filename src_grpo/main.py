@@ -101,7 +101,7 @@ def main(args):
         reward_func=reward_func,
         eval_model=eval_model,
         eval_dataloader=eval_dataloader,
-        metric_weights=args[:-1]
+        metric_weights=metric_weights
     )
     print("GRPO trainer created!")
 
