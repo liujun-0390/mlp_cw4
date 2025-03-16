@@ -65,7 +65,7 @@ def load_task_dataset(path):
 
     return new_dataset
 
-def main():
+def main(args):
     random.seed(42)
     model_name = "Bio-Medical-Llama-3-2-1B-CoT-012025"
 
