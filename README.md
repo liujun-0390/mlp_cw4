@@ -1,22 +1,22 @@
 # README.md
 ### Steps for running experiment scripts:
 1. Get all the source codes and scripts from this repo:
-    a. If you already have the repo cloned:
-      - Switch to `main` branch with `git checkout main`
-      - Get all the latest code with `git pull`
-    b. Otherwise:
-      - Clone this repo with `git clone git@github.com:liujun-0390/mlp_cw4.git`
-      - Go to the cloned directory `mlp_cw4` with `cd mlp_cw4`
-2. Unzip the data with `unzip MedMCQA.zip` (Skip to Step 3 if you have already unzipped the data and have the directory `MedMCQA`)
-3. Install git lfs with `git lfs install` (Skip to Step 8 if you have already cloned the LLM)
-4. Clone BioMedical Llama with `git clone https://liujun-0390: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@huggingface.co/ContactDoctor/Bio-Medical-Llama-3-2-1B-CoT-012025`
-5. Go to the cloned directory with `cd Bio-Medical-Llama-3-2-1B-CoT-012025`
-6. Ensure all the files have been downloaded properly with `git lfs pull`
-7. Return to `mlp_cw4` (one level before) with `cd ..`
-8. Create conda environment with `conda create -n prompt_agent` (Skip to Step 9 if you have already created the environment)
-9. Activate the environment with `conda activate prompt_agent`
-10. Install required libraries with `pip install -r requirements.txt` (Skip to Step 11 if you have already installed the required libraries)
-11. Run the experiment scripts with `bash run_experiment_xxx.sh`
+    - If you already have the repo cloned:
+       - Switch to `main` branch with `git checkout main`
+       - Get all the latest code with `git pull`
+    - Otherwise:
+        - Clone this repo with `git clone git@github.com:liujun-0390/mlp_cw4.git`
+        - Go to the cloned directory `mlp_cw4` with `cd mlp_cw4`
+3. Unzip the data with `unzip MedMCQA.zip` (Skip to Step 3 if you have already unzipped the data and have the directory `MedMCQA`)
+4. Install git lfs with `git lfs install` (Skip to Step 8 if you have already cloned the LLM)
+5. Clone BioMedical Llama with `git clone https://liujun-0390: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@huggingface.co/ContactDoctor/Bio-Medical-Llama-3-2-1B-CoT-012025`
+6. Go to the cloned directory with `cd Bio-Medical-Llama-3-2-1B-CoT-012025`
+7. Ensure all the files have been downloaded properly with `git lfs pull`
+8. Return to `mlp_cw4` (one level before) with `cd ..`
+9. Create conda environment with `conda create -n prompt_agent` (Skip to Step 9 if you have already created the environment)
+10. Activate the environment with `conda activate prompt_agent`
+11. Install required libraries with `pip install -r requirements.txt` (Skip to Step 11 if you have already installed the required libraries)
+12. Run the experiment scripts with `bash run_experiment_xxx.sh`
 
 #### Experiment Scripts (includes both training and testing):
 1. `run_experiment_init.sh`: Experiment script for initial prompt (only involves testing)
