@@ -94,7 +94,7 @@ def test(
         all_labels.extend(labels)
         all_questions.extend(batch['question'])
         
-        metric = task.cal_metric(all_preds, all_labels, all_questions, metric_weights)
+        metric = task.cal_metric(all_preds, all_labels, all_questions, metric_weights=metric_weights)
         if not isinstance(metric, tuple):
             pbar.set_postfix_str(f"Test Metric: {metric:.4f}")
         else:
@@ -127,7 +127,7 @@ def test(
                     logger.info(f"Test Metrics: {metric}")
                 logger.info('-------------------------------')
     
-    metric, acc, bleu, rouge, meteor = task.cal_metric_test(all_preds, all_labels, all_questions, metric_weights)
+    metric, acc, bleu, rouge, meteor = task.cal_metric_test(all_preds, all_labels, all_questions, metric_weights=metric_weights)
     logger.info('--------------------------------------------')
     if not isinstance(metric, tuple):
         logger.info(f"Test Metric: {metric:.4f}")
