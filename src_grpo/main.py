@@ -120,7 +120,7 @@ def main(args):
 
     print("Writing optimized prompt to data.json")
     data = {"optimized_prompt": generated_text}
-    with open(f'{args['log_dir']}/data.json', 'w', encoding='utf-8') as f:
+    with open(f"{args['log_dir']}/data.json", 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
     print(f"Optimized prompt written to {args['log_dir']}/data.json!")
     
