@@ -27,7 +27,7 @@ def reward_func(questions, prompt, eval_dataloader, eval_model, metric_weights):
         else:
             pbar.set_postfix_str(f"Test Metrics: {metric}")
 
-    reward = _cal_metric(all_preds, all_labels, rouge_screr)
+    reward = _cal_metric(all_preds, all_labels, rouge_screr, metric_weights)
     print("Reward calculation completed! ")
 
     return reward
