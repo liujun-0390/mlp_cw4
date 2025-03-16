@@ -20,6 +20,8 @@ Answer questions from real world medical exams.
 
 Please write a new prompt to improve the current prompt.
 
+Please only return the improved prompt in your response.
+
 The new prompt is:
 """
 
