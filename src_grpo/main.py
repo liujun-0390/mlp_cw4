@@ -112,7 +112,7 @@ def main(args):
     print("Generating optimized prompt...")
     prompt = trainer.processing_class.apply_chat_template(init_prompt, tokenize=False, add_generation_prompt=False)
     generated_ids = trainer.model.generate(
-        **trainer.processing_class(prompt, return_tensors='pt', padding=True)
+        **trainer.processing_class(prompt, return_tensors='pt', padding=True).to(device='cuda:1')
     )
     generated_text = trainer.processing_class.batch_decode(generated_ids, skip_special_tokens=True)[0]
     generated_text = generated_text.split('assistant')[-1]
